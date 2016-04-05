@@ -1,0 +1,9 @@
+#!/usr/bin/expect -f
+
+spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0]
+set timeout 10
+expect {  
+ "*yes/no" { send "yes\r"}  
+ "*password:" { send "xxxxxx\r"}  
+ "*password: " { send "xxxxxx\r"}  
+}
