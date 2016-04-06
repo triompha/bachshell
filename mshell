@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 #查看服务器配置
-#spawn ssh root@[lindex $argv 0] "grep processor /proc/cpuinfo | wc -l;grep MemTotal /proc/meminfo;df -h;lsb_release -a;yum list"
+#spawn ssh root@[lindex $argv 0] "grep processor /proc/cpuinfo | wc -l;grep MemTotal /proc/meminfo;df -h;lsb_release -a;yum list;hostname -i"
 #重启sshd服务
 #spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "service sshd restart"
 #批量copy文件
@@ -9,6 +9,13 @@
 #spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "echo 'admin	ALL=(ALL)	ALL'|tee -a /etc/sudoers; echo 'Defaults;admin !requiretty'|tee -a /etc/sudoers"
 #删除文件中某行数据
 #spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "sed -i '/Defaults	requiretty/d' /etc/sudoers"
+
+#查找某行中数据，并将整行替换为对应信息
+#spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "sed -r -i "/xxxssxx/ s/.*/1111 2222/g" /etc/hosts"
+
+#替换某行数据中对应信息
+#spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "sed -i 's/127.0.1.1/$argv/' /etc/hosts"
+
 
 set timeout 10
 expect {  
