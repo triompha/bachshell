@@ -15,11 +15,33 @@
 
 #替换某行数据中对应信息
 #spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "sed -i 's/127.0.1.1/$argv/' /etc/hosts"
+#spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "hostname -i"
+
+
+#所有机器安装ntp
+#spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "yum -y install ntp; echo 'server 22.188.4.73'>/etc/ntp.conf;cp /etc/ntp.conf /etc/ntpd.conf ; chkconfig ntpd on;service ntpd restart"
+
+#批量执行mqadmin
+spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "su - admin -c 'sh /home/admin/rmq/bin/mqadmin updateSubGroup -c ONS-TEST -g onsconsoleConsumer'"
+
+#批量执行mqadmin
+#spawn ssh -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no root@[lindex $argv 0] "su - admin -c 'sh /home/admin/rmq/bin/mqbroker -c /home/admin/rmq/conf/broker.conf & chdir=/home/admin/rmq/bin'"
+
+
+
+#set timeout 10
+#expect {  
+# "*yes/no" { send "yes\r"}  
+# "*password:" { send "xxxxxx\r"}  
+# "*password: " { send "xxxxxx\r"}  
+#}
 
 
 set timeout 10
-expect {  
- "*yes/no" { send "yes\r"}  
- "*password:" { send "xxxxxx\r"}  
- "*password: " { send "xxxxxx\r"}  
-}
+expect "*s*"
+send "yes\r"
+
+expect "*password*"
+send "xxxxxx\r"
+
+interact
